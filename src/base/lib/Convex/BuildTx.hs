@@ -135,6 +135,7 @@ import qualified Data.Map                      as Map
 import           Data.Maybe                    (fromJust, fromMaybe)
 import qualified Data.Set                      as Set
 import qualified PlutusLedgerApi.V1            as Plutus
+import Debug.Trace (trace)
 
 type TxBody = C.TxBodyContent C.BuildTx C.ConwayEra
 
@@ -206,7 +207,7 @@ liftTxBodyEndo f = TxBuilder (const f)
 -}
 buildTxWith :: TxBuilder -> TxBody -> TxBody
 buildTxWith TxBuilder{unTxBuilder} initial =
-  let result = unTxBuilder result initial
+  let result = trace "buildTxWith: fixpoint" $ unTxBuilder result initial
   in result
 
 instance Semigroup TxBuilder where
